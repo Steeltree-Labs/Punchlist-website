@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notch – Punchlists & Reports</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #D93B1A;
+      --blue-light: rgba(217,59,26,0.10);
+      --dark: #1C1C1E;
+      --text: #3A3A3C;
+      --muted: #6E6E73;
+      --bg: #FFFFFF;
+      --surface: #F2F2F7;
+      --border: #E5E5EA;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* ─── HERO WORDMARK ANIMATION ─── */
+    .hero-wordmark {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 40px;
+    }
+
+    /* Black left vertical stroke — draws in top-to-bottom on load */
+    .n-left-svg {
+      width: 13px;
+      height: calc(0.72 * 88px); /* 63px — matches hwm-logo height */
+      flex-shrink: 0;
+      margin-right: -2px; /* close the 2px transparent left-pad in logo.png */
+      overflow: visible;
+    }
+    .n-left-line {
+      stroke-dasharray: 63;
+      stroke-dashoffset: 63;
+      animation: drawLeft 1.0s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+    }
+    @keyframes drawLeft {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Logo image — same cap-height as "otch" text */
+    .hwm-logo {
+      height: calc(0.72 * 88px); /* ≈63px */
+      width: auto;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    /* "otch" — sits in place, revealed left→right by a clip wipe */
+    .hero-otch {
+      font-size: 88px;
+      font-weight: 800;
+      letter-spacing: -4px;
+      color: var(--dark);
+      line-height: 1;
+      margin-left: -6px; /* pull tight against logo's right edge */
+      clip-path: inset(0 100% 0 0);
+      animation: wipeOtch 1.1s cubic-bezier(0.76, 0, 0.24, 1) 0.2s forwards;
+    }
+    @keyframes wipeOtch {
+      to { clip-path: inset(0 0% 0 0); }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 19px; font-weight: 800; letter-spacing: -0.6px;
+      color: var(--dark); text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo-img { height: 1em; width: auto; flex-shrink: 0; }
+    .nav-logo span { color: var(--blue); }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a {
+      color: var(--text); text-decoration: none;
+      font-size: 15px; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links .nav-cta {
+      background: var(--dark); color: #fff;
+      padding: 9px 20px; border-radius: 20px;
+      font-weight: 600; font-size: 14px;
+    }
+    .nav-links .nav-cta:hover { color: #fff; opacity: 0.85; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 100px 24px 80px;
+      background: linear-gradient(175deg, #F2F2F7 0%, #FFFFFF 60%);
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--blue-light); color: var(--blue);
+      padding: 6px 16px; border-radius: 20px;
+      font-size: 13px; font-weight: 600;
+      margin-bottom: 28px; letter-spacing: 0.2px;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--blue); animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+    .hero h1 {
+      font-size: clamp(50px, 9vw, 96px);
+      font-weight: 800; letter-spacing: -3px;
+      color: var(--dark); line-height: 1.0;
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--blue); }
+    .hero-sub {
+      font-size: clamp(18px, 2.2vw, 22px);
+      color: var(--muted); max-width: 520px;
+      line-height: 1.55; margin-bottom: 44px;
+    }
+    .btn-appstore {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--dark); color: #fff;
+      padding: 14px 28px; border-radius: 16px;
+      text-decoration: none; font-weight: 600; font-size: 16px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-appstore:hover { transform: scale(1.03); opacity: 0.9; }
+    .btn-appstore svg { width: 24px; height: 24px; fill: #fff; }
+    .scroll-hint {
+      margin-top: 72px; color: var(--muted); font-size: 13px;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      animation: nudge 2.2s ease-in-out infinite;
+    }
+    .scroll-hint svg { width: 20px; height: 20px; stroke: var(--muted); }
+    @keyframes nudge {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(7px); }
+    }
+
+    /* ─── FEATURES SECTION ─── */
+    .features-wrap {
+      display: flex;
+      position: relative;
+    }
+
+    /* Sticky phone side */
+    .phone-side {
+      width: 50%;
+      position: sticky; top: 0;
+      height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: transparent;
+      flex-shrink: 0;
+    }
+
+    /* iPhone Frame — ultra-thin iPhone 17 Pro style */
+    .phone-frame {
+      width: 280px; height: 594px;
+      background: linear-gradient(160deg, #2C2C2E 0%, #1A1A1C 100%);
+      border-radius: 52px;
+      padding: 6px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.14),
+        0 0 0 2px rgba(0,0,0,0.6),
+        0 0 0 2.5px rgba(255,255,255,0.07),
+        0 40px 80px rgba(0,0,0,0.35),
+        0 8px 20px rgba(0,0,0,0.20);
+      position: relative;
+    }
+    /* Volume buttons */
+    .phone-frame::before {
+      content: '';
+      position: absolute; left: -2.5px; top: 110px;
+      width: 2.5px; height: 36px;
+      background: #3A3A3C; border-radius: 2px 0 0 2px;
+      box-shadow: 0 44px 0 #3A3A3C;
+    }
+    /* Side button */
+    .phone-frame::after {
+      content: '';
+      position: absolute; right: -2.5px; top: 110px;
+      width: 2.5px; height: 56px;
+      background: #3A3A3C; border-radius: 0 2px 2px 0;
+    }
+    .phone-screen {
+      width: 100%; height: 100%;
+      border-radius: 47px; overflow: hidden;
+      position: relative; background: #000;
+      isolation: isolate;
+    }
+    /* Overlay pill above screenshots */
+    .phone-screen::after {
+      content: '';
+      position: absolute; top: 14px; left: 50%;
+      transform: translateX(-50%);
+      width: 88px; height: 28px;
+      background: #000; border-radius: 20px; z-index: 20;
+      pointer-events: none;
+    }
+
+    /* ─── APP SCREENS ─── */
+    .app-screen {
+      position: absolute; inset: 0;
+      opacity: 0; transition: opacity 0.55s ease, transform 0.55s ease;
+      transform: translateY(12px);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .app-screen.active { opacity: 1; transform: translateY(0); }
+
+    /* Screen status bar shared */
+    .s-statusbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 18px 6px;
+      font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* === Screen 1: AI Punchlist === */
+    .s-ai { background: #F7FBFF; }
+    .s-ai .s-statusbar { color: var(--dark); }
+    .s-ai-header {
+      padding: 4px 16px 10px;
+      font-size: 15px; font-weight: 700; color: var(--dark);
+    }
+    .s-ai-photo {
+      margin: 0 16px 12px;
+      height: 100px; border-radius: 14px;
+      background: linear-gradient(135deg, #a8edea, #fed6e3);
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .s-ai-photo-icon { font-size: 28px; }
+    .s-ai-photo-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.52);
+      color: #fff; font-size: 9px; padding: 5px 10px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .s-ai-label {
+      padding: 0 16px 8px;
+      font-size: 10px; font-weight: 700; color: var(--blue);
+      text-transform: uppercase; letter-spacing: 0.6px;
+    }
+    .ai-row {
+      margin: 0 16px 7px;
+      background: #fff; border-radius: 10px; padding: 9px 11px;
+      display: flex; gap: 8px; align-items: flex-start;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    }
+    .ai-row-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--blue); margin-top: 3px; flex-shrink: 0;
+    }
+    .ai-row-text { font-size: 9.5px; color: var(--dark); line-height: 1.45; }
+    .s-ai-actions {
+      margin: 10px 16px 0;
+      display: flex; gap: 8px;
+    }
+    .s-btn {
+      flex: 1; padding: 9px 6px; border-radius: 10px;
+      font-size: 10px; font-weight: 600; text-align: center;
+    }
+    .s-btn-primary { background: var(--blue); color: #fff; }
+    .s-btn-ghost { background: #E5E5EA; color: var(--dark); }
+
+    /* === Screen 2: Camera === */
+    .s-cam { background: #000; }
+    .s-cam .s-statusbar { color: #fff; }
+    .s-cam-vf {
+      flex: 1; position: relative;
+      background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .s-cam-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .s-cam-crosshair {
+      position: absolute;
+      width: 60px; height: 60px;
+      border: 2px solid rgba(255,255,255,0.7);
+      border-radius: 12px;
+    }
+    .s-cam-crosshair::before, .s-cam-crosshair::after {
+      content: ''; position: absolute;
+      background: rgba(255,255,255,0.9);
+    }
+    .s-cam-crosshair::before {
+      left: 50%; top: -8px; width: 1px; height: calc(100% + 16px);
+      transform: translateX(-50%);
+    }
+    .s-cam-crosshair::after {
+      top: 50%; left: -8px; height: 1px; width: calc(100% + 16px);
+      transform: translateY(-50%);
+    }
+    .s-cam-compass {
+      position: absolute; top: 14px; left: 0; right: 0;
+      display: flex; justify-content: center;
+    }
+    .compass-pill {
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px; padding: 5px 14px;
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; color: #fff; font-weight: 600;
+    }
+    .compass-arrow { color: var(--blue); font-size: 13px; }
+    .s-cam-bar {
+      background: #111; padding: 14px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .cam-flash-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,220,0,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+    }
+    .cam-shutter {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: #fff;
+      border: 3px solid rgba(255,255,255,0.4);
+      box-shadow: 0 0 0 4px rgba(255,255,255,0.15);
+    }
+    .cam-gallery {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: linear-gradient(135deg, #a8edea, #fed6e3);
+    }
+
+    /* === Screen 3: PDF Report === */
+    .s-pdf { background: #F2F2F7; }
+    .s-pdf .s-statusbar { color: var(--dark); }
+    .s-pdf-header {
+      padding: 4px 16px 10px;
+      font-size: 15px; font-weight: 700; color: var(--dark);
+    }
+    .s-pdf-doc {
+      margin: 0 14px;
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+      overflow: hidden; flex: 1;
+    }
+    .s-pdf-doc-header {
+      background: linear-gradient(135deg, #1C1C1E, #3A3A3C);
+      padding: 12px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .s-pdf-logo-box {
+      width: 42px; height: 28px; border-radius: 6px;
+      background: rgba(255,255,255,0.15);
+      border: 1.5px dashed rgba(255,255,255,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; color: rgba(255,255,255,0.7);
+    }
+    .s-pdf-title-block { color: #fff; }
+    .s-pdf-title-block .t1 { font-size: 11px; font-weight: 700; }
+    .s-pdf-title-block .t2 { font-size: 8.5px; opacity: 0.6; }
+    .s-pdf-body { padding: 10px 14px; }
+    .s-pdf-section-label {
+      font-size: 8px; font-weight: 700; color: var(--blue);
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+    }
+    .s-pdf-item {
+      display: flex; gap: 6px; margin-bottom: 6px; align-items: flex-start;
+    }
+    .s-pdf-item-num {
+      font-size: 8.5px; font-weight: 700; color: var(--blue);
+      min-width: 14px;
+    }
+    .s-pdf-item-text { font-size: 8.5px; color: var(--dark); line-height: 1.4; }
+    .s-pdf-img-row {
+      display: flex; gap: 5px; margin-top: 8px;
+    }
+    .s-pdf-thumb {
+      flex: 1; height: 42px; border-radius: 7px;
+      background: linear-gradient(135deg, #a8edea, #fed6e3);
+    }
+    .s-pdf-thumb:nth-child(2) {
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+    }
+
+    /* === Screen 4: Autodesk Build === */
+    .s-ad { background: #F7F7F7; }
+    .s-ad .s-statusbar { color: var(--dark); }
+    .s-ad-header {
+      padding: 4px 16px 10px;
+      font-size: 15px; font-weight: 700; color: var(--dark);
+    }
+    .s-ad-card {
+      margin: 0 14px 10px;
+      background: #fff; border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+      padding: 12px 14px;
+    }
+    .s-ad-card-top {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+    }
+    .s-ad-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: #E8501A;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: #fff; font-weight: 800;
+      flex-shrink: 0;
+    }
+    .s-ad-name { font-size: 12px; font-weight: 700; color: var(--dark); }
+    .s-ad-sub { font-size: 9.5px; color: var(--muted); }
+    .s-ad-progress {
+      height: 4px; background: #E5E5EA; border-radius: 4px; overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .s-ad-progress-bar {
+      height: 100%; width: 72%; background: #E8501A; border-radius: 4px;
+    }
+    .s-ad-stat-row {
+      display: flex; gap: 8px;
+    }
+    .s-ad-stat {
+      flex: 1; background: #F8F8F8; border-radius: 8px;
+      padding: 8px; text-align: center;
+    }
+    .s-ad-stat-num { font-size: 14px; font-weight: 800; color: var(--dark); }
+    .s-ad-stat-label { font-size: 8.5px; color: var(--muted); }
+    .s-ad-sync-btn {
+      margin: 4px 14px 0;
+      background: #E8501A; color: #fff;
+      border-radius: 10px; padding: 10px;
+      font-size: 11px; font-weight: 700;
+      text-align: center;
+    }
+
+    /* === Screen 5: Project Gallery === */
+    .s-proj { background: #F2F2F7; }
+    .s-proj .s-statusbar { color: var(--dark); }
+    .s-proj-header {
+      padding: 4px 16px 10px;
+      font-size: 15px; font-weight: 700; color: var(--dark);
+    }
+    .s-proj-search {
+      margin: 0 16px 10px;
+      background: #E5E5EA; border-radius: 10px;
+      padding: 8px 12px; font-size: 10px; color: var(--muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .s-proj-grid {
+      padding: 0 14px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    }
+    .s-proj-card {
+      background: #fff; border-radius: 12px;
+      overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+    }
+    .s-proj-thumb {
+      height: 60px;
+    }
+    .s-proj-thumb.t1 { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .s-proj-thumb.t2 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .s-proj-thumb.t3 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+    .s-proj-thumb.t4 { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+    .s-proj-info { padding: 7px 8px; }
+    .s-proj-name { font-size: 9.5px; font-weight: 700; color: var(--dark); }
+    .s-proj-meta { font-size: 8.5px; color: var(--muted); }
+
+    /* ─── SCROLL SIDE ─── */
+    .scroll-side {
+      width: 50%;
+      flex-shrink: 0;
+    }
+    .feature-block {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 80px 64px;
+    }
+    .feature-block:first-child { padding-top: 0; }
+    .feat-num {
+      font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 18px;
+    }
+    .feature-block h2 {
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 800; letter-spacing: -1.2px;
+      color: var(--dark); line-height: 1.1; margin-bottom: 18px;
+    }
+    .feature-block p {
+      font-size: 18px; color: var(--muted);
+      line-height: 1.7; max-width: 400px; margin-bottom: 28px;
+    }
+    .feat-tags { display: flex; flex-direction: column; gap: 10px; }
+    .feat-tag {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.85);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,1);
+      padding: 12px 18px; border-radius: 14px;
+      font-size: 14px; font-weight: 500; color: var(--text); width: fit-content;
+    }
+    .feat-tag::before {
+      content: '';
+      display: block; width: 5px; height: 5px; border-radius: 50%;
+      background: var(--blue); flex-shrink: 0; opacity: 0.85;
+    }
+
+    /* ─── CTA SECTION ─── */
+    .cta-section {
+      background: var(--dark);
+      padding: 100px 40px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: clamp(32px, 5vw, 60px);
+      font-weight: 800; letter-spacing: -2px;
+      color: #fff; margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 18px; color: rgba(255,255,255,0.55);
+      max-width: 480px; margin: 0 auto 40px; line-height: 1.6;
+    }
+    .btn-appstore-light {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: #fff; color: var(--dark);
+      padding: 14px 28px; border-radius: 16px;
+      text-decoration: none; font-weight: 700; font-size: 16px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-appstore-light:hover { transform: scale(1.03); opacity: 0.93; }
+    .btn-appstore-light svg { width: 24px; height: 24px; fill: var(--dark); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: #1C1C1E;
+      border-top: 1px solid #2C2C2E;
+      padding: 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo {
+      font-size: 17px; font-weight: 800; letter-spacing: -0.5px;
+      color: #fff; text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-logo span { color: var(--blue); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      color: rgba(255,255,255,0.45); text-decoration: none;
+      font-size: 14px; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.85); }
+    .footer-copy { color: rgba(255,255,255,0.3); font-size: 13px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+      .features-wrap { flex-direction: column; }
+      .phone-side { width: 100%; height: 70vh; position: relative; top: auto; }
+      .scroll-side { width: 100%; }
+      .feature-block { padding: 60px 28px; min-height: auto; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="logo.png" class="logo-img" alt="">Notch</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="#" class="nav-cta">App Store ↗</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <!-- Animated Notch wordmark -->
+    <div class="hero-wordmark" aria-label="Notch">
+      <!-- Left vertical of N — black, draws in top-to-bottom -->
+      <svg class="n-left-svg" viewBox="0 0 13 63" xmlns="http://www.w3.org/2000/svg">
+        <line class="n-left-line" x1="6.5" y1="0" x2="6.5" y2="63"
+              stroke="#1C1C1E" stroke-width="13" stroke-linecap="butt"/>
+      </svg>
+      <!-- Logo mark (diagonal + right vertical of N) -->
+      <img src="logo.png" class="hwm-logo" alt="" aria-hidden="true">
+      <!-- "otch" wipes in simultaneously -->
+      <span class="hero-otch">otch</span>
+    </div>
+
+    <div class="hero-badge">
+      <span class="dot"></span> Now available on iOS &amp; iPadOS
+    </div>
+    <h1>Punchlists,<br><span>reinvented.</span></h1>
+    <p class="hero-sub">
+      Notch turns job-site photos into professional reports in seconds —
+      powered by AI, built for the field.
+    </p>
+    <a href="#" class="btn-appstore">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.19 1.28-2.17 3.8.03 3.02 2.65 4.03 2.68 4.04l-.06.18zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Download on the App Store
+    </a>
+    <div class="scroll-hint">
+      <span>Scroll to explore</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- FEATURES: Sticky phone + scroll text -->
+  <div class="features-wrap">
+
+    <!-- Sticky Phone -->
+    <div class="phone-side">
+      <div class="phone-frame">
+        <div class="phone-screen">
+
+          <!-- Screen 1: AI Punchlist -->
+          <div class="app-screen active" id="screen-1">
+            <img src="screen1.PNG" alt="AI Punchlist screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+
+          <!-- Screen 2: Camera -->
+          <div class="app-screen" id="screen-2">
+            <img src="screen2.PNG" alt="Camera screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+
+          <!-- Screen 3: PDF Report -->
+          <div class="app-screen" id="screen-3">
+            <img src="screen3.PNG" alt="PDF Report screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+
+          <!-- Screen 4: Autodesk Build -->
+          <div class="app-screen" id="screen-4">
+            <img src="screen4.PNG" alt="Autodesk Build screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+
+          <!-- Screen 5: Projects -->
+          <div class="app-screen" id="screen-5">
+            <img src="screen5.PNG" alt="Projects screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+
+          <!-- Screen 6: AI Search -->
+          <div class="app-screen" id="screen-6">
+            <img src="screen6.PNG" alt="AI Search screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+
+        </div><!-- /phone-screen -->
+      </div><!-- /phone-frame -->
+    </div><!-- /phone-side -->
+
+    <!-- Scroll Side -->
+    <div class="scroll-side">
+
+      <div class="feature-block" data-screen="1">
+        <div class="feat-num">01 · AI-Powered</div>
+        <h2>Snap a photo.<br>Get a punchlist.</h2>
+        <p>
+          Point your camera at any issue, and Notch's AI instantly analyzes the scene and generates a complete list of remedies. Edit, delete, or add your own — then produce a professional report with one tap.
+        </p>
+        <div class="feat-tags">
+          <div class="feat-tag">AI-generated punch items from photos</div>
+          <div class="feat-tag">Fully editable — add, remove, or rewrite</div>
+          <div class="feat-tag">Report ready in seconds, not hours</div>
+        </div>
+      </div>
+
+      <div class="feature-block" data-screen="2">
+        <div class="feat-num">02 · Smart Camera</div>
+        <h2>Every photo knows<br>where it was taken.</h2>
+        <p>
+          Notch's custom camera captures directional coordinates automatically — so each photo is stamped with the compass heading of the shot. A built-in flashlight ensures dark rooms are never a problem.
+        </p>
+        <div class="feat-tags">
+          <div class="feat-tag">Auto direction stamp on every photo</div>
+          <div class="feat-tag">Integrated flashlight for dark spaces</div>
+          <div class="feat-tag">Captions placed automatically</div>
+        </div>
+      </div>
+
+      <div class="feature-block" data-screen="3">
+        <div class="feat-num">03 · Professional Reports</div>
+        <h2>Branded PDFs you'll<br>be proud to send.</h2>
+        <p>
+          Generate polished, professional PDF reports with your own company logo. Every report includes your photos, punch items, and project details — formatted and ready to share with clients and contractors.
+        </p>
+        <div class="feat-tags">
+          <div class="feat-tag">Upload your company logo</div>
+          <div class="feat-tag">Clean, professional PDF layout</div>
+          <div class="feat-tag">Share instantly via email or AirDrop</div>
+        </div>
+      </div>
+
+      <div class="feature-block" data-screen="4">
+        <div class="feat-num">04 · Autodesk Build</div>
+        <h2>Push punch items<br>to your workflow.</h2>
+        <p>
+          Already using Autodesk Build? Notch connects directly, letting you push punchlist items straight into your existing project without re-entering a single detail.
+        </p>
+        <div class="feat-tags">
+          <div class="feat-tag">Direct Autodesk Build integration</div>
+          <div class="feat-tag">One-tap push — no copy/paste</div>
+          <div class="feat-tag">Keeps your team's workflow in sync</div>
+        </div>
+      </div>
+
+      <div class="feature-block" data-screen="5">
+        <div class="feat-num">05 · Project Management</div>
+        <h2>All your projects<br>in one place.</h2>
+        <p>
+          Notch keeps a clean library of every project, its photos, and its reports. Browse your job-site photos independently of punchlists — a full visual record always at your fingertips.
+        </p>
+        <div class="feat-tags">
+          <div class="feat-tag">Organized project library</div>
+          <div class="feat-tag">Browse photos by project</div>
+          <div class="feat-tag">Access past reports anytime</div>
+        </div>
+      </div>
+
+      <div class="feature-block" data-screen="6">
+        <div class="feat-num">06 · Intelligent Search</div>
+        <h2>Find anything,<br>instantly.</h2>
+        <p>
+          AI-powered search lets you cut through every project, item, and photo in seconds. Filter by open or closed status, trade, repair type, or any keyword — exactly the way you think on the job site.
+        </p>
+        <div class="feat-tags">
+          <div class="feat-tag">Search open &amp; closed items</div>
+          <div class="feat-tag">Filter by trade or repair type</div>
+          <div class="feat-tag">AI keyword understanding</div>
+        </div>
+      </div>
+
+    </div><!-- /scroll-side -->
+  </div><!-- /features-wrap -->
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Ready to move faster<br>on the job site?</h2>
+    <p>Download Notch for free and create your first professional punchlist report in minutes.</p>
+    <a href="#" class="btn-appstore-light">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.19 1.28-2.17 3.8.03 3.02 2.65 4.03 2.68 4.04l-.06.18zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Download on the App Store
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="index.html" class="footer-logo"><img src="logo.png" class="logo-img" alt="">Notch</a>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="#">App Store</a>
+    </div>
+    <span class="footer-copy">© 2026 Notch. All rights reserved.</span>
+  </footer>
+
+  <script>
+    // Activate the first feature block on load
+    document.querySelector('[data-screen="1"]').classList.add('is-active');
+
+    const screens = document.querySelectorAll('.app-screen');
+    const blocks  = document.querySelectorAll('.feature-block[data-screen]');
+
+    function activateScreen(id) {
+      screens.forEach(s => s.classList.remove('active'));
+      const target = document.getElementById('screen-' + id);
+      if (target) target.classList.add('active');
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const screenId = entry.target.dataset.screen;
+          activateScreen(screenId);
+        }
+      });
+    }, {
+      threshold: 0.5,
+      rootMargin: '0px 0px -10% 0px'
+    });
+
+    blocks.forEach(block => observer.observe(block));
+  </script>
+
+</body>
+</html>

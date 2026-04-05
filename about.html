@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About – Notch: Punchlists & Reports</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #D93B1A;
+      --dark: #1C1C1E;
+      --text: #3A3A3C;
+      --muted: #6E6E73;
+      --bg: #FFFFFF;
+      --surface: #F2F2F7;
+      --border: #E5E5EA;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      color: var(--text); background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 19px; font-weight: 800; letter-spacing: -0.6px;
+      color: var(--dark); text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo-img { height: 1em; width: auto; flex-shrink: 0; }
+    .nav-logo span { color: var(--blue); }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a {
+      color: var(--text); text-decoration: none;
+      font-size: 15px; font-weight: 500; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links .nav-cta {
+      background: var(--dark); color: #fff;
+      padding: 9px 20px; border-radius: 20px;
+      font-weight: 600; font-size: 14px;
+    }
+    .nav-links .nav-cta:hover { color: #fff; opacity: 0.85; }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding: 140px 40px 80px;
+      background: linear-gradient(175deg, #F2F2F7 0%, #FFFFFF 70%);
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 800; letter-spacing: -2px;
+      color: var(--dark); margin-bottom: 20px;
+    }
+    .page-hero p {
+      font-size: 20px; color: var(--muted);
+      max-width: 560px; margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* CONTENT */
+    .content {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 80px 40px 120px;
+    }
+
+    .about-section { margin-bottom: 64px; }
+    .about-section h2 {
+      font-size: 28px; font-weight: 700;
+      letter-spacing: -0.8px; color: var(--dark);
+      margin-bottom: 16px;
+    }
+    .about-section p {
+      font-size: 17px; color: var(--muted);
+      line-height: 1.75; margin-bottom: 16px;
+    }
+    .about-section p:last-child { margin-bottom: 0; }
+
+    /* ORIGIN CARD */
+    .origin-card {
+      background: rgba(255,255,255,0.70);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.90);
+      box-shadow: 0 4px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,1);
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 64px;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+    .origin-card h2 {
+      font-size: 24px; font-weight: 700;
+      letter-spacing: -0.6px; color: var(--dark);
+      margin-bottom: 12px;
+    }
+    .origin-card p {
+      font-size: 16px; color: var(--muted); line-height: 1.7;
+    }
+
+    /* VALUES */
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 64px;
+    }
+    .value-card {
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.88);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,1);
+      border-radius: 18px; padding: 28px;
+      transition: box-shadow 0.2s;
+    }
+    .value-card:hover {
+      box-shadow: 0 6px 28px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,1);
+    }
+    .value-card h3 {
+      font-size: 17px; font-weight: 700;
+      color: var(--dark); margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+    .value-card p { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+    /* BUILT WITH */
+    .built-section { margin-bottom: 64px; }
+    .built-section h2 {
+      font-size: 28px; font-weight: 700;
+      letter-spacing: -0.8px; color: var(--dark);
+      margin-bottom: 24px;
+    }
+    .tech-list {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .tech-item {
+      display: flex; align-items: center; gap: 16px;
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.88);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,1);
+      border-radius: 14px;
+      padding: 16px 20px;
+    }
+    .tech-badge {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.3px;
+      background: var(--dark); color: #fff;
+      padding: 5px 12px; border-radius: 8px;
+      min-width: 64px; text-align: center; flex-shrink: 0;
+    }
+    .tech-item p { font-size: 15px; color: var(--text); }
+
+    /* CTA */
+    .about-cta {
+      background: var(--dark); border-radius: 24px;
+      padding: 48px 40px; text-align: center;
+    }
+    .about-cta h2 {
+      font-size: 30px; font-weight: 800;
+      color: #fff; letter-spacing: -1px; margin-bottom: 12px;
+    }
+    .about-cta p {
+      font-size: 16px; color: rgba(255,255,255,0.5);
+      margin-bottom: 28px; max-width: 380px; margin-left: auto; margin-right: auto;
+    }
+    .btn-appstore-light {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: #fff; color: var(--dark);
+      padding: 14px 28px; border-radius: 14px;
+      text-decoration: none; font-weight: 700; font-size: 16px;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-appstore-light:hover { transform: scale(1.03); opacity: 0.93; }
+    .btn-appstore-light svg { width: 22px; height: 22px; fill: var(--dark); }
+
+    /* FOOTER */
+    footer {
+      background: #1C1C1E;
+      border-top: 1px solid #2C2C2E;
+      padding: 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo {
+      font-size: 17px; font-weight: 800; letter-spacing: -0.5px;
+      color: #fff; text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-logo span { color: var(--blue); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      color: rgba(255,255,255,0.45); text-decoration: none;
+      font-size: 14px; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.85); }
+    .footer-copy { color: rgba(255,255,255,0.3); font-size: 13px; }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+      .page-hero { padding: 120px 24px 60px; }
+      .content { padding: 60px 24px 80px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .origin-card { flex-direction: column; gap: 20px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="logo.png" class="logo-img" alt="">Notch</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="#" class="nav-cta">App Store ↗</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <h1>Built for the field.</h1>
+    <p>Notch was created by people who know what it's like to lose time on job sites doing things that should be instant.</p>
+  </section>
+
+  <div class="content">
+
+    <div class="origin-card">
+      <div>
+        <h2>Where Notch came from</h2>
+        <p>
+          Anyone who has worked a punch walk knows the frustration: juggling a phone camera, a legal pad, and a clipboard — then spending hours back at the office turning scribbled notes into something readable. Notch was born from the conviction that a phone with a great camera and a bit of AI intelligence could eliminate all of that.
+        </p>
+      </div>
+    </div>
+
+    <div class="about-section">
+      <h2>What we set out to build</h2>
+      <p>
+        The goal was simple: make punchlists so fast that there's no excuse not to use them. From the moment you open the app to the moment a branded PDF lands in your client's inbox, Notch handles the heavy lifting — AI analysis, automatic photo captions, report formatting, and direct integration with tools like Autodesk Build.
+      </p>
+      <p>
+        We wanted Notch to feel like it was designed specifically for construction and inspection professionals — not like a generic form-builder that happens to accept photos. Every detail, from the custom camera with directional coordinates to the one-tap PDF export, was chosen to match how real work gets done on a job site.
+      </p>
+    </div>
+
+    <div class="values-grid">
+      <div class="value-card">
+        <h3>Speed above all</h3>
+        <p>If something takes more than a tap or two, we look for a way to remove the steps. Time on site is valuable.</p>
+      </div>
+      <div class="value-card">
+        <h3>Built for the job site</h3>
+        <p>Designed for people wearing hard hats and work boots, not people sitting at a desk with a keyboard.</p>
+      </div>
+      <div class="value-card">
+        <h3>Your data stays yours</h3>
+        <p>No accounts, no cloud storage of your photos. Everything stays on your device unless you choose to share it.</p>
+      </div>
+      <div class="value-card">
+        <h3>Pro quality output</h3>
+        <p>The reports Notch generates should look like you spent an hour on them. Because now you don't have to.</p>
+      </div>
+    </div>
+
+    <div class="built-section">
+      <h2>What's under the hood</h2>
+      <div class="tech-list">
+        <div class="tech-item">
+          <span class="tech-badge">Swift</span>
+          <p>Native iOS and iPadOS app built with Swift and SwiftUI for a fast, fluid experience.</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-badge">AI</span>
+          <p>AI-powered photo analysis generates punch item suggestions automatically from your job-site photos.</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-badge">PDF</span>
+          <p>Professional branded PDF generation with custom logo support, formatted and ready to share.</p>
+        </div>
+        <div class="tech-item">
+          <span class="tech-badge">Autodesk</span>
+          <p>Direct integration with Autodesk Build lets you push punch items without leaving the app.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-cta">
+      <h2>Try Notch today.</h2>
+      <p>Download free on the App Store and run your first punch walk in minutes.</p>
+      <a href="#" class="btn-appstore-light">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.14-2.19 1.28-2.17 3.8.03 3.02 2.65 4.03 2.68 4.04l-.06.18zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download on the App Store
+      </a>
+    </div>
+
+  </div>
+
+  <footer>
+    <a href="index.html" class="footer-logo"><img src="logo.png" class="logo-img" alt="">Notch</a>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="#">App Store</a>
+    </div>
+    <span class="footer-copy">© 2026 Notch. All rights reserved.</span>
+  </footer>
+
+</body>
+</html>

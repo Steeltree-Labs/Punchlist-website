@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – Notch: Punchlists & Reports</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #D93B1A;
+      --dark: #1C1C1E;
+      --text: #3A3A3C;
+      --muted: #6E6E73;
+      --bg: #FFFFFF;
+      --surface: #F2F2F7;
+      --border: #E5E5EA;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+      color: var(--text); background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 62px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-size: 19px; font-weight: 800; letter-spacing: -0.6px;
+      color: var(--dark); text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo-img { height: 1em; width: auto; flex-shrink: 0; }
+    .nav-logo span { color: var(--blue); }
+    .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+    .nav-links a {
+      color: var(--text); text-decoration: none;
+      font-size: 15px; font-weight: 500; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-links .nav-cta {
+      background: var(--dark); color: #fff;
+      padding: 9px 20px; border-radius: 20px;
+      font-weight: 600; font-size: 14px;
+    }
+    .nav-links .nav-cta:hover { color: #fff; opacity: 0.85; }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding: 140px 40px 60px;
+      background: linear-gradient(175deg, #F2F2F7 0%, #FFFFFF 70%);
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 800; letter-spacing: -2px;
+      color: var(--dark); margin-bottom: 16px;
+    }
+    .page-hero .meta {
+      font-size: 14px; color: var(--muted);
+    }
+
+    /* SUMMARY CARDS */
+    .summary-strip {
+      max-width: 860px; margin: 0 auto;
+      padding: 48px 40px 0;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .summary-card {
+      background: var(--surface);
+      border-radius: 16px; padding: 24px;
+      text-align: center;
+    }
+    .summary-card .icon {
+      margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .summary-card .icon svg {
+      width: 32px; height: 32px;
+      fill: var(--dark);
+    }
+    .summary-card h3 {
+      font-size: 15px; font-weight: 700;
+      color: var(--dark); margin-bottom: 6px;
+    }
+    .summary-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* DOCUMENT */
+    .privacy-doc {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 40px 120px;
+    }
+
+    .priv-section { margin-bottom: 52px; }
+    .priv-section h2 {
+      font-size: 22px; font-weight: 700;
+      color: var(--dark); letter-spacing: -0.5px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1.5px solid var(--border);
+    }
+    .priv-section p {
+      font-size: 16px; color: var(--text);
+      line-height: 1.75; margin-bottom: 14px;
+    }
+    .priv-section p:last-child { margin-bottom: 0; }
+    .priv-section ul {
+      margin: 12px 0 14px 0;
+      padding-left: 20px;
+    }
+    .priv-section ul li {
+      font-size: 16px; color: var(--text);
+      line-height: 1.7; margin-bottom: 6px;
+    }
+    .highlight-box {
+      background: rgba(217,59,26,0.07);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-size: 16px; color: var(--text); line-height: 1.7;
+    }
+    .highlight-box strong { color: var(--blue); }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* FOOTER */
+    footer {
+      background: #1C1C1E;
+      border-top: 1px solid #2C2C2E;
+      padding: 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo {
+      font-size: 17px; font-weight: 800; letter-spacing: -0.5px;
+      color: #fff; text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-logo span { color: var(--blue); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      color: rgba(255,255,255,0.45); text-decoration: none;
+      font-size: 14px; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.85); }
+    .footer-copy { color: rgba(255,255,255,0.3); font-size: 13px; }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+      .page-hero { padding: 120px 24px 40px; }
+      .summary-strip { grid-template-columns: 1fr; padding: 36px 24px 0; }
+      .privacy-doc { padding: 48px 24px 80px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="logo.png" class="logo-img" alt="">Notch</a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="#" class="nav-cta">App Store ↗</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <h1>Privacy Policy</h1>
+    <p class="meta">Last updated: March 28, 2026</p>
+  </section>
+
+  <!-- Quick summary cards -->
+  <div class="summary-strip">
+    <div class="summary-card">
+      <!-- lock.fill -->
+      <div class="icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 10h-1V7A5 5 0 0 0 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2zm-6 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3.1-7H8.9V7a3.1 3.1 0 0 1 6.2 0v3z"/>
+        </svg>
+      </div>
+      <h3>No accounts required</h3>
+      <p>Notch doesn't require you to create an account or provide personal information to use the app.</p>
+    </div>
+    <div class="summary-card">
+      <!-- iphone -->
+      <div class="icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2H8C6.34 2 5 3.34 5 5v14c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3zm-4 18.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zM17 17H7V5.5h10V17z"/>
+        </svg>
+      </div>
+      <h3>Stays on your device</h3>
+      <p>Your photos and project data are stored locally on your device. We don't upload or store them on our servers.</p>
+    </div>
+    <div class="summary-card">
+      <!-- hand.raised.slash / no ads -->
+      <div class="icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 18a8 8 0 0 1-5.66-13.66L18.66 17.66A7.96 7.96 0 0 1 12 20zm5.66-2.34L5.34 6.34A8 8 0 0 1 17.66 17.66z"/>
+        </svg>
+      </div>
+      <h3>No ads, ever</h3>
+      <p>We don't sell your data or show you ads. Your usage of Notch is never sold to third parties.</p>
+    </div>
+  </div>
+
+  <div class="privacy-doc">
+
+    <div class="priv-section">
+      <h2>1. Introduction</h2>
+      <p>
+        This Privacy Policy describes how Notch ("we," "us," or "our") handles information in connection with your use of the Notch: Punchlists &amp; Reports application ("the App") on iOS and iPadOS devices.
+      </p>
+      <p>
+        We are committed to protecting your privacy. Please read this policy carefully to understand our practices regarding your data.
+      </p>
+      <div class="highlight-box">
+        <strong>The short version:</strong> Notch is designed to work without collecting your personal data. Your photos, projects, and reports live on your device and are only shared when you actively choose to share them.
+      </div>
+    </div>
+
+    <div class="priv-section">
+      <h2>2. Information We Collect</h2>
+      <p><strong>Information stored on your device only:</strong></p>
+      <ul>
+        <li><strong>Photos:</strong> Photos you capture within the app are stored on your device and are not transmitted to our servers.</li>
+        <li><strong>Project data:</strong> Project names, punchlist items, reports, and associated metadata are stored locally on your device.</li>
+        <li><strong>App preferences:</strong> Your settings and preferences, including any logo you've uploaded for reports, are stored locally.</li>
+      </ul>
+      <p><strong>Information processed externally:</strong></p>
+      <ul>
+        <li><strong>AI analysis:</strong> When you use the AI-powered punchlist feature, photos may be sent to a third-party AI service for analysis in order to generate punch item suggestions. Photos are sent only at the moment of analysis and are not retained by us or stored by the AI service beyond the duration of processing.</li>
+        <li><strong>Autodesk Build integration:</strong> If you connect Notch to Autodesk Build, punchlist items and related data you choose to push are transmitted directly to Autodesk's servers. This data is subject to Autodesk's own privacy policy.</li>
+      </ul>
+      <p><strong>Information we do not collect:</strong></p>
+      <ul>
+        <li>We do not collect your name, email address, or any contact information.</li>
+        <li>We do not track your location.</li>
+        <li>We do not maintain user accounts or profiles.</li>
+        <li>We do not use analytics tools that track your in-app behavior.</li>
+        <li>We do not collect device identifiers for advertising purposes.</li>
+      </ul>
+    </div>
+
+    <div class="priv-section">
+      <h2>3. Camera &amp; Device Permissions</h2>
+      <p>
+        Notch requests access to your device's camera in order to capture photos for punchlists. The app may also access device orientation and compass data (using Core Motion and Core Location APIs) to record directional information as captions on your photos.
+      </p>
+      <p>
+        These permissions are used only within the app to support its core features. You can manage app permissions at any time through your device's Settings app.
+      </p>
+    </div>
+
+    <div class="priv-section">
+      <h2>4. AI-Powered Analysis</h2>
+      <p>
+        Notch uses artificial intelligence to analyze your job-site photos and suggest punchlist items. When you trigger AI analysis, the photo is transmitted over an encrypted connection to a third-party AI processing service. The response — a list of suggested punch items — is returned to your device.
+      </p>
+      <p>
+        We do not retain copies of your photos on our servers. The AI service processes your photo solely for the purpose of generating punch item suggestions and does not use it for training AI models or any other purpose, consistent with applicable data processing agreements.
+      </p>
+    </div>
+
+    <div class="priv-section">
+      <h2>5. PDF Reports &amp; Data Sharing</h2>
+      <p>
+        Reports generated by Notch are created and stored on your device. You choose when and how to share them — via AirDrop, email, messaging, or any other method available through iOS's standard share sheet.
+      </p>
+      <p>
+        When you share a report, the contents of that report (photos, punch items, project details, your company logo) are transmitted via the method you select. We have no involvement in or visibility into reports you choose to share.
+      </p>
+    </div>
+
+    <div class="priv-section">
+      <h2>6. Autodesk Build Integration</h2>
+      <p>
+        If you choose to use the Autodesk Build integration, you will be asked to authenticate with your Autodesk account. Notch uses Autodesk's official API and OAuth authentication flow. Your Autodesk credentials are never visible to or stored by Notch — authentication is handled entirely by Autodesk.
+      </p>
+      <p>
+        Punchlist items and related data that you choose to push to Autodesk Build are transmitted directly to Autodesk's servers and are subject to <a href="https://www.autodesk.com/company/legal-notices-trademarks/privacy-statement" target="_blank" rel="noopener">Autodesk's Privacy Policy</a>.
+      </p>
+    </div>
+
+    <div class="priv-section">
+      <h2>7. Data Retention &amp; Deletion</h2>
+      <p>
+        All data created within Notch — including your photos, projects, and reports — is stored exclusively on your device. You can delete this data at any time by deleting individual items within the app or by deleting the app from your device entirely.
+      </p>
+      <p>
+        Deleting the app from your device will remove all locally stored app data. We do not maintain copies of your data on external servers, so there is no additional deletion request required.
+      </p>
+    </div>
+
+    <div class="priv-section">
+      <h2>8. Children's Privacy</h2>
+      <p>
+        Notch is not intended for use by children under the age of 13, and we do not knowingly collect any personal information from children. If you believe a child under 13 has used the app in a way that provided personal data, please contact us and we will take appropriate steps.
+      </p>
+    </div>
+
+    <div class="priv-section">
+      <h2>9. Changes to This Policy</h2>
+      <p>
+        We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top of this page. If changes are significant, we may also notify users through the App Store update notes.
+      </p>
+      <p>
+        Your continued use of the app after any changes constitutes your acceptance of the revised policy.
+      </p>
+    </div>
+
+    <div class="priv-section">
+      <h2>10. Contact Us</h2>
+      <p>
+        If you have any questions or concerns about this Privacy Policy or our privacy practices, please don't hesitate to reach out. You can contact us via the <a href="contact.html">Contact page</a> on this website.
+      </p>
+    </div>
+
+  </div>
+
+  <footer>
+    <a href="index.html" class="footer-logo"><img src="logo.png" class="logo-img" alt="">Notch</a>
+    <div class="footer-links">
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="#">App Store</a>
+    </div>
+    <span class="footer-copy">© 2026 Notch. All rights reserved.</span>
+  </footer>
+
+</body>
+</html>
