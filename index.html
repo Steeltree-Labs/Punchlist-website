@@ -598,15 +598,112 @@
     .footer-links a:hover { color: rgba(255,255,255,0.85); }
     .footer-copy { color: rgba(255,255,255,0.3); font-size: 13px; }
 
+    /* ─── PHONE END SCREEN ─── */
+    .phone-end-screen {
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-end; justify-content: center;
+      padding-bottom: 36px;
+      background: #111113;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      z-index: 15;
+      pointer-events: none;
+    }
+    .phone-end-screen span {
+      font-size: 72px; font-weight: 800;
+      color: var(--blue); letter-spacing: -4px; line-height: 1;
+    }
+    .phone-side.show-end .phone-end-screen { opacity: 1; }
+
+    /* ─── HAMBURGER (mobile only) ─── */
+    .mobile-nav-right { display: none; align-items: center; gap: 10px; }
+    .mobile-nav-right .nav-cta {
+      background: #F5F5F7; color: #1C1C1E;
+      padding: 7px 14px; border-radius: 20px;
+      font-weight: 600; font-size: 13px;
+      text-decoration: none;
+    }
+    .mobile-nav-right .nav-cta:hover { opacity: 0.85; color: #1C1C1E; }
+    .hamburger {
+      display: flex; flex-direction: column; justify-content: center; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 8px; border-radius: 8px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: #F5F5F7; border-radius: 2px;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    nav.nav-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    nav.nav-open .hamburger span:nth-child(2) { opacity: 0; }
+    nav.nav-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 768px) {
-      nav { padding: 0 20px; }
-      .nav-links { gap: 16px; }
-      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+
+      /* ── NAV ── */
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }           /* hide desktop links */
+      .mobile-nav-right { display: flex; }    /* show App Store + hamburger */
+
+      /* Mobile dropdown when open */
+      nav.nav-open .nav-links {
+        display: flex; flex-direction: column;
+        position: absolute; top: 62px; left: 0; right: 0;
+        background: rgba(17,17,19,0.97);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        padding: 24px 24px 28px; gap: 22px; z-index: 199;
+      }
+      nav.nav-open .nav-links li { display: flex; }
+      nav.nav-open .nav-links li:last-child { display: none; } /* App Store already visible */
+      nav.nav-open .nav-links a { font-size: 18px; font-weight: 600; color: #F5F5F7; }
+
+      /* ── FEATURES — vertical, phone sticky at top ── */
       .features-wrap { flex-direction: column; }
-      .phone-side { width: 100%; height: 70vh; position: relative; top: auto; }
-      .scroll-side { width: 100%; }
-      .feature-block { padding: 60px 28px; min-height: auto; }
+
+      /* Phone sits on top of everything — z-index: 20 keeps it always visible */
+      .phone-side {
+        width: 100%; height: 60vh;
+        position: sticky; top: 62px;
+        z-index: 20; background: var(--bg);
+        flex-shrink: 0;
+      }
+
+      /* Gradient at bottom of screenshot fades into page */
+      .phone-side::after {
+        content: '';
+        position: absolute; bottom: 0; left: 0; right: 0;
+        height: 100px;
+        background: linear-gradient(to bottom, transparent 0%, var(--bg) 100%);
+        z-index: 2; pointer-events: none;
+      }
+
+      /* Strip the phone frame entirely — just the screenshot */
+      .phone-frame {
+        width: 100%; height: 100%;
+        background: transparent; border-radius: 0;
+        padding: 0; box-shadow: none;
+      }
+      .phone-frame::before, .phone-frame::after { display: none; }
+      .phone-screen { border-radius: 0; background: #000; }
+      .phone-screen::after { display: none; }
+
+      /* Larger VIF end screen text on mobile */
+      .phone-end-screen span { font-size: 22vw; }
+
+      /* Text scrolls below phone, disappears behind it as it moves up */
+      .scroll-side {
+        width: 100%; position: relative; z-index: 5;
+      }
+
+      .feature-block {
+        min-height: 80vh;
+        padding: 28px 24px 48px;
+        background: var(--bg);
+      }
+
+      .feat-tags { display: none; }
+
       footer { flex-direction: column; align-items: flex-start; }
     }
   </style>
@@ -622,6 +719,13 @@
       <li><a href="privacy.html">Privacy</a></li>
       <li><a href="#" class="nav-cta">App Store ↗</a></li>
     </ul>
+    <!-- Mobile: App Store + hamburger -->
+    <div class="mobile-nav-right">
+      <a href="#" class="nav-cta" style="font-size:13px;padding:7px 14px;">App Store ↗</a>
+      <button class="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
   <!-- HERO -->
@@ -659,37 +763,42 @@
           <!-- Screen 1: AI Punchlist -->
           <!-- Screen 1: AI Punchlist -->
           <div class="app-screen active" id="screen-1">
-            <img src="screen01.PNG" alt="AI Punchlist screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img src="screen01.PNG" alt="AI Punchlist screen" style="width:100%;height:100%;object-fit:cover;object-position:bottom;display:block;">
           </div>
 
           <!-- Screen 1a: Editing -->
           <div class="app-screen" id="screen-1a">
-            <video src="screen01a.MP4" loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+            <video src="screen01a.MP4" loop muted playsinline style="width:100%;height:100%;object-fit:cover;object-position:0 15%;display:block;"></video>
           </div>
 
           <!-- Screen 2: Camera -->
           <div class="app-screen" id="screen-2">
-            <img src="screen02.PNG" alt="Camera screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img src="screen02.PNG" alt="Camera screen" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
           </div>
 
           <!-- Screen 3: PDF Report -->
           <div class="app-screen" id="screen-3">
-            <img src="screen03.PNG" alt="PDF Report screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img src="screen03.PNG" alt="PDF Report screen" style="width:100%;height:100%;object-fit:cover;object-position:0 15%;display:block;">
           </div>
 
           <!-- Screen 4: Autodesk Build -->
           <div class="app-screen" id="screen-4">
-            <img src="screen04.PNG" alt="Autodesk Build screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img src="screen04.PNG" alt="Autodesk Build screen" style="width:100%;height:100%;object-fit:cover;object-position:0 15%;display:block;">
           </div>
 
           <!-- Screen 5: Projects -->
           <div class="app-screen" id="screen-5">
-            <img src="screen05.PNG" alt="Projects screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img src="screen05.PNG" alt="Projects screen" style="width:100%;height:100%;object-fit:cover;object-position:0 15%;display:block;">
           </div>
 
           <!-- Screen 6: AI Search -->
           <div class="app-screen" id="screen-6">
-            <img src="screen06.PNG" alt="AI Search screen" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <img src="screen06.PNG" alt="AI Search screen" style="width:100%;height:100%;object-fit:cover;object-position:0 18%;display:block;">
+          </div>
+
+          <!-- End screen: fades in when CTA section is reached -->
+          <div class="phone-end-screen">
+            <span>VIF</span>
           </div>
 
         </div><!-- /phone-screen -->
@@ -823,6 +932,7 @@
     const blocks  = document.querySelectorAll('.feature-block[data-screen]');
 
     function activateScreen(id) {
+      if (phoneSide) phoneSide.classList.remove('show-end');
       screens.forEach(s => {
         s.classList.remove('active');
         const v = s.querySelector('video');
@@ -849,6 +959,32 @@
     });
 
     blocks.forEach(block => observer.observe(block));
+
+    // Fade to VIF end screen when CTA section comes into view — stays visible
+    const phoneSide = document.querySelector('.phone-side');
+    const ctaSection = document.querySelector('.cta-section');
+    if (phoneSide && ctaSection) {
+      const endObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) phoneSide.classList.add('show-end');
+          // Only remove when user scrolls back up (activateScreen handles that)
+        });
+      }, { threshold: 0.05 });
+      endObserver.observe(ctaSection);
+    }
+
+    // Hamburger menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navEl = document.querySelector('nav');
+    if (hamburger) {
+      hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navEl.classList.toggle('nav-open');
+      });
+      document.addEventListener('click', (e) => {
+        if (!navEl.contains(e.target)) navEl.classList.remove('nav-open');
+      });
+    }
   </script>
 
 </body>
