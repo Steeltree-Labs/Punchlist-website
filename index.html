@@ -26,7 +26,7 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 40px 24px;
+      padding: 40px 24px 120px;
       text-align: center;
     }
 
@@ -99,27 +99,46 @@
       margin-bottom: 64px;
     }
 
-    /* Divider */
-    .divider {
-      width: 40px;
-      height: 2px;
-      background: var(--border);
-      border-radius: 2px;
-      margin-bottom: 32px;
+    /* Launch note */
+    .launch-note {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--blue);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      margin-bottom: 0;
     }
 
-    /* Footer note */
-    .footer-note {
+    /* Red footer bar */
+    .red-footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--blue);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      z-index: 10;
+    }
+    .red-footer span {
       font-size: 14px;
-      color: rgba(174,174,178,0.5);
-      letter-spacing: 0.2px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.1px;
     }
-    .footer-note a {
-      color: rgba(174,174,178,0.5);
+    .red-footer a {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
       text-decoration: none;
-      transition: color 0.2s;
+      transition: opacity 0.2s;
     }
-    .footer-note a:hover { color: var(--muted); }
+    .red-footer a:hover { opacity: 0.8; }
+
+    @media (max-width: 480px) {
+      .red-footer { justify-content: center; text-align: center; }
+    }
 
     @media (max-width: 480px) {
       h1 { letter-spacing: -2px; }
@@ -138,17 +157,19 @@
 
     <div class="label">Coming Soon</div>
 
-    <h1>Punch lists,<br>done <span>right.</span></h1>
+    <h1>Punchlists,<br>done <span>right.</span></h1>
 
     <p>
       Snap. Analyze. Report.<br>VIF AI turns photos into punchlists and PDFs.
     </p>
 
-    <div class="divider"></div>
+    <p class="launch-note">Launching on the Apple App Store</p>
 
-    <p class="footer-note">Launching on the Apple App Store &nbsp;·&nbsp; <a href="mailto:hello@steeltreelabs.com">Contact us</a></p>
-    <p class="footer-note" style="margin-top: 12px;">By Steeltree Labs LLC</p>
+  </div>
 
+  <div class="red-footer">
+    <span>Steeltree Labs LLC</span>
+    <a href="mailto:hello@steeltreelabs.com">Contact us</a>
   </div>
 
 </body>
