@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy Policy – VIF: Punchlists & Reports</title>
+  <title>Privacy Policy – VIF: Punchlists &amp; Reports</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -51,6 +51,21 @@
     }
     .nav-links .nav-cta:hover { color: #1C1C1E; opacity: 0.85; }
 
+    /* HAMBURGER */
+    .mobile-nav-right { display: none; align-items: center; gap: 10px; }
+    .mobile-nav-right .nav-cta {
+      background: #F5F5F7; color: #1C1C1E;
+      padding: 7px 14px; border-radius: 20px;
+      font-weight: 600; font-size: 13px;
+      text-decoration: none;
+    }
+    .mobile-nav-right .nav-cta:hover { opacity: 0.85; color: #1C1C1E; }
+    .hamburger { display: flex; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; border-radius: 8px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: #F5F5F7; border-radius: 2px; transition: transform 0.25s, opacity 0.25s; }
+    nav.nav-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    nav.nav-open .hamburger span:nth-child(2) { opacity: 0; }
+    nav.nav-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
     /* PAGE HERO */
     .page-hero {
       padding: 140px 40px 60px;
@@ -66,70 +81,50 @@
       font-size: 14px; color: var(--muted);
     }
 
-    /* SUMMARY CARDS */
-    .summary-strip {
-      max-width: 860px; margin: 0 auto;
-      padding: 48px 40px 0;
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    .summary-card {
-      background: #2C2C2E;
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px; padding: 24px;
-      text-align: center;
-    }
-    .summary-card .icon {
-      margin-bottom: 12px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .summary-card .icon svg {
-      width: 32px; height: 32px;
-      fill: #F5F5F7;
-    }
-    .summary-card h3 {
-      font-size: 15px; font-weight: 700;
-      color: #F5F5F7; margin-bottom: 6px;
-    }
-    .summary-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
-
-    /* DOCUMENT */
-    .privacy-doc {
+    /* LEGAL DOCUMENT */
+    .legal-doc {
       max-width: 720px;
       margin: 0 auto;
       padding: 64px 40px 120px;
     }
-
-    .priv-section { margin-bottom: 52px; }
-    .priv-section h2 {
+    .legal-doc > p, .legal-doc li, .legal-doc td, .legal-doc th {
+      font-size: 16px; color: var(--text); line-height: 1.75;
+    }
+    .legal-doc > p { margin-bottom: 14px; }
+    .legal-doc h2 {
       font-size: 22px; font-weight: 700;
       color: #F5F5F7; letter-spacing: -0.5px;
-      margin-bottom: 16px;
+      margin: 52px 0 16px;
       padding-bottom: 12px;
       border-bottom: 1.5px solid var(--border);
     }
-    .priv-section p {
-      font-size: 16px; color: var(--text);
-      line-height: 1.75; margin-bottom: 14px;
+    .legal-doc h3 {
+      font-size: 17px; font-weight: 700;
+      color: #F5F5F7; margin: 28px 0 10px;
     }
-    .priv-section p:last-child { margin-bottom: 0; }
-    .priv-section ul {
-      margin: 12px 0 14px 0;
-      padding-left: 20px;
-    }
-    .priv-section ul li {
-      font-size: 16px; color: var(--text);
-      line-height: 1.7; margin-bottom: 6px;
-    }
-    .highlight-box {
+    .legal-doc ul { margin: 12px 0 14px; padding-left: 20px; }
+    .legal-doc li { margin-bottom: 6px; }
+    .legal-doc strong { color: #F5F5F7; }
+    .notice {
       background: rgba(217,59,26,0.07);
       border-left: 3px solid var(--blue);
       border-radius: 0 10px 10px 0;
       padding: 16px 20px;
-      margin: 20px 0;
+      margin: 20px 0 28px;
       font-size: 16px; color: var(--text); line-height: 1.7;
     }
-    .highlight-box strong { color: var(--blue); }
+    .notice p { margin-bottom: 8px; }
+    .notice ul { margin-bottom: 0; }
+    .table-wrap { overflow-x: auto; margin: 12px 0 20px; }
+    .legal-doc table { border-collapse: collapse; width: 100%; }
+    .legal-doc th, .legal-doc td {
+      text-align: left; vertical-align: top;
+      padding: 10px 12px; border-bottom: 1px solid var(--border);
+      font-size: 14px; line-height: 1.6;
+    }
+    .legal-doc th { background: var(--surface); font-weight: 700; color: #F5F5F7; }
+    /* Placeholder highlight — remove once values are filled in */
+    .ph { background: rgba(255,214,10,0.25); color: #FFD60A; border-radius: 4px; padding: 0 4px; }
 
     a { color: var(--blue); text-decoration: none; }
     a:hover { text-decoration: underline; }
@@ -157,191 +152,220 @@
     .footer-copy { color: rgba(255,255,255,0.3); font-size: 13px; }
 
     @media (max-width: 640px) {
-      nav { padding: 0 20px; }
-      .nav-links { gap: 16px; }
-      .nav-links li:not(:last-child):not(:nth-last-child(2)) { display: none; }
+      nav { padding: 0 16px; }
+      .nav-links { display: none; }
+      .mobile-nav-right { display: flex; }
+      nav.nav-open .nav-links {
+        display: flex; flex-direction: column;
+        position: absolute; top: 62px; left: 0; right: 0;
+        background: rgba(17,17,19,0.97);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        padding: 24px 24px 28px; gap: 22px; z-index: 199;
+      }
+      nav.nav-open .nav-links li { display: flex; }
+      nav.nav-open .nav-links li:last-child { display: none; }
+      nav.nav-open .nav-links a { font-size: 18px; font-weight: 600; color: #F5F5F7; }
       .page-hero { padding: 120px 24px 40px; }
-      .summary-strip { grid-template-columns: 1fr; padding: 36px 24px 0; }
-      .privacy-doc { padding: 48px 24px 80px; }
+            .legal-doc { padding: 48px 24px 80px; }
       footer { flex-direction: column; align-items: flex-start; }
     }
+
+    /* ─── PRELAUNCH SWITCH ───
+       While <body class="prelaunch">, only the logo, Privacy and Terms links show.
+       At launch: delete class="prelaunch" from the body tag and the full menu and footer return. */
+    .prelaunch-link { display: none !important; }
+    .prelaunch .prelaunch-link { display: list-item !important; }
+    .prelaunch .site-link,
+    .prelaunch .mobile-nav-right { display: none !important; }
+    .prelaunch .nav-links { display: flex !important; flex-direction: row !important; position: static !important; padding: 0 !important; background: none !important; border: 0 !important; gap: 20px !important; }
   </style>
 </head>
-<body>
+<body class="prelaunch">
 
   <nav>
     <a href="index.html" class="nav-logo"><img src="logo.png" class="logo-img" alt="">VIF</a>
     <ul class="nav-links">
-      <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
+      <li class="site-link"><a href="about.html">About</a></li>
+      <li class="site-link"><a href="contact.html">Contact</a></li>
       <li><a href="privacy.html">Privacy</a></li>
-      <li><a href="#" class="nav-cta">App Store ↗</a></li>
+      <li class="prelaunch-link"><a href="terms.html">Terms</a></li>
+      <li class="site-link"><a href="#" class="nav-cta">App Store ↗</a></li>
     </ul>
+    <div class="mobile-nav-right">
+      <a href="#" class="nav-cta">App Store ↗</a>
+      <button class="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
   <section class="page-hero">
     <h1>Privacy Policy</h1>
-    <p class="meta">Last updated: March 28, 2026</p>
+    <p class="meta">Effective Date: <span class="ph">[DATE]</span></p>
   </section>
 
-  <!-- Quick summary cards -->
-  <div class="summary-strip">
-    <div class="summary-card">
-      <!-- lock.fill -->
-      <div class="icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 10h-1V7A5 5 0 0 0 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2zm-6 7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm3.1-7H8.9V7a3.1 3.1 0 0 1 6.2 0v3z"/>
-        </svg>
-      </div>
-      <h3>No accounts required</h3>
-      <p>VIF doesn't require you to create an account or provide personal information to use the app.</p>
-    </div>
-    <div class="summary-card">
-      <!-- iphone -->
-      <div class="icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 2H8C6.34 2 5 3.34 5 5v14c0 1.66 1.34 3 3 3h8c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3zm-4 18.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zM17 17H7V5.5h10V17z"/>
-        </svg>
-      </div>
-      <h3>Stays on your device</h3>
-      <p>Your photos and project data are stored locally on your device. We don't upload or store them on our servers.</p>
-    </div>
-    <div class="summary-card">
-      <!-- hand.raised.slash / no ads -->
-      <div class="icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 18a8 8 0 0 1-5.66-13.66L18.66 17.66A7.96 7.96 0 0 1 12 20zm5.66-2.34L5.34 6.34A8 8 0 0 1 17.66 17.66z"/>
-        </svg>
-      </div>
-      <h3>No ads, ever</h3>
-      <p>We don't sell your data or show you ads. Your usage of VIF is never sold to third parties.</p>
-    </div>
-  </div>
+  <div class="legal-doc">
 
-  <div class="privacy-doc">
+    <p>This Privacy Policy explains how Steeltree Labs LLC ("Steeltree," "we," "us," or "our") collects, uses, shares, and protects information in connection with VIF: Punchlists &amp; Reports (the "App"). It should be read together with our <a href="terms.html">Terms of Service</a>.</p>
 
-    <div class="priv-section">
-      <h2>1. Introduction</h2>
-      <p>
-        This Privacy Policy describes how VIF ("we," "us," or "our") handles information in connection with your use of the VIF: Punchlists &amp; Reports application ("the App") on iOS and iPadOS devices.
-      </p>
-      <p>
-        We are committed to protecting your privacy. Please read this policy carefully to understand our practices regarding your data.
-      </p>
-      <div class="highlight-box">
-        <strong>The short version:</strong> VIF is designed to work without collecting your personal data. Your photos, projects, and reports live on your device and are only shared when you actively choose to share them.
-      </div>
-    </div>
-
-    <div class="priv-section">
-      <h2>2. Information We Collect</h2>
-      <p><strong>Information stored on your device only:</strong></p>
+    <div class="notice">
+      <p><strong>The short version</strong></p>
       <ul>
-        <li><strong>Photos:</strong> Photos you capture within the app are stored on your device and are not transmitted to our servers.</li>
-        <li><strong>Project data:</strong> Project names, punchlist items, reports, and associated metadata are stored locally on your device.</li>
-        <li><strong>App preferences:</strong> Your settings and preferences, including any logo you've uploaded for reports, are stored locally.</li>
-      </ul>
-      <p><strong>Information processed externally:</strong></p>
-      <ul>
-        <li><strong>AI analysis:</strong> When you use the AI-powered punchlist feature, photos may be sent to a third-party AI service for analysis in order to generate punch item suggestions. Photos are sent only at the moment of analysis and are not retained by us or stored by the AI service beyond the duration of processing.</li>
-        <li><strong>Autodesk Build integration:</strong> If you connect VIF to Autodesk Build, punchlist items and related data you choose to push are transmitted directly to Autodesk's servers. This data is subject to Autodesk's own privacy policy.</li>
-      </ul>
-      <p><strong>Information we do not collect:</strong></p>
-      <ul>
-        <li>We do not collect your name, email address, or any contact information.</li>
-        <li>We do not track your location.</li>
-        <li>We do not maintain user accounts or profiles.</li>
-        <li>We do not use analytics tools that track your in-app behavior.</li>
-        <li>We do not collect device identifiers for advertising purposes.</li>
+        <li>VIF has no accounts. We don't ask for your name, email, or password, and we never see your payment details.</li>
+        <li>Your projects live on your device and in your own iCloud account.</li>
+        <li>When you ask for an AI analysis, the photo or text is sent to OpenAI for processing. Neither we nor OpenAI use it to train AI models.</li>
+        <li>We keep a limited amount of data on our servers: AI request records and the PDF reports you create.</li>
+        <li>We don't sell your information or use it for advertising.</li>
+        <li>We don't use facial recognition or try to identify people in your photos.</li>
       </ul>
     </div>
 
-    <div class="priv-section">
-      <h2>3. Camera &amp; Device Permissions</h2>
-      <p>
-        VIF requests access to your device's camera in order to capture photos for punchlists. The app may also access device orientation and compass data (using Core Motion and Core Location APIs) to record directional information as captions on your photos.
-      </p>
-      <p>
-        These permissions are used only within the app to support its core features. You can manage app permissions at any time through your device's Settings app.
-      </p>
+    <h2>1. Information We Collect</h2>
+
+    <h3>1.1 Content You Create</h3>
+    <p>When you use the App, you create content such as projects, punch list items, photos, voice memos and their transcriptions, text descriptions, comments, mentions, assignees, location tags, and reports ("Your Content"). Photos may include information captured with them, such as the date and time, compass heading, and, if you allow it, location and weather conditions.</p>
+    <p>Your Content may include information about other people, for example people who appear in photos or the names of team members you add to a project. You are responsible for having the right to include that information (see Section 9).</p>
+
+    <h3>1.2 Information Sent for AI Analysis</h3>
+    <p>When you request an AI analysis, we receive the photo or text you submitted, any context you add, your analysis settings (such as language and level of detail), and technical information about the request. We store a record of each request, including the AI's response, processing status, timing, and cost. Photos sent for analysis are stored only temporarily (see Section 6).</p>
+    <h3>1.3 Purchase and Subscription Information</h3>
+    <p>Purchases are handled entirely by Apple. We do not receive your name, email address, Apple ID, or payment card details. We receive information from Apple about your purchases and subscription, such as an App Store transaction identifier, subscription status, renewal and refund events, and token pack purchases. We use the App Store transaction identifier (or, if it is unavailable, a randomly generated identifier for your device) to keep track of your subscription and token balance.</p>
+
+    <h3>1.4 Usage and Device Information</h3>
+    <p>We collect technical and usage information, such as which features are used, token usage, app version, device type and operating system version, and error information. This is collected through our analytics provider, TelemetryDeck, and through our servers when you use AI features. It is linked to the identifier described in Section 1.3, not to your name. It does not include the contents of your photos or projects.</p>
+    <h3>1.5 Device Permissions</h3>
+    <p>The App asks for permission before using the following features. You can change these permissions at any time in your device's Settings.</p>
+    <ul>
+      <li><strong>Camera and Photos</strong>, to take photos and, if you choose, save exported photos to your photo library.</li>
+      <li><strong>Location</strong>, to tag photos with location and to look up weather conditions. Weather is provided by Apple Weather, so your approximate location is sent to Apple for this purpose.</li>
+      <li><strong>Motion sensors</strong>, to record compass heading and level when you take a photo.</li>
+    </ul>
+
+    <h3>1.6 Autodesk Build Connection</h3>
+    <p>If you connect the App to Autodesk Build, you sign in directly with Autodesk. We never see your Autodesk password. The access credentials Autodesk issues are stored securely in your device's Keychain and are not sent to our servers.</p>
+
+    <h3>1.7 Information Processed Only on Your Device</h3>
+    <p>Some features run entirely on your device and do not send data to us, including natural-language search (using Apple's on-device intelligence features) and compass and level readings.</p>
+
+    <h2>2. How We Use Information</h2>
+    <p>We use information to:</p>
+    <ul>
+      <li>provide the App's features, including AI analysis, reports, collaboration, and the Autodesk integration;</li>
+      <li>manage subscriptions, track token balances, prevent duplicate charges, and refund tokens for failed requests;</li>
+      <li>maintain, troubleshoot, and secure the App, and detect and prevent fraud and abuse;</li>
+      <li>understand how the App is used and improve it, including evaluating the quality of AI responses;</li>
+      <li>respond to your questions, requests, and support needs; and</li>
+      <li>comply with legal obligations and enforce our <a href="terms.html">Terms of Service</a>.</li>
+    </ul>
+    <p><strong>We do not use Your Content to train AI models</strong>, we do not sell personal information, and we do not use it for targeted advertising.</p>
+
+    <h2>3. Where Your Information Is Stored</h2>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Location</th><th>What's stored</th><th>Who can access it</th></tr>
+      <tr><td>Your device</td><td>Your projects, full-quality photos, voice memos, cached reports, and Autodesk access credentials (in the Keychain)</td><td>You</td></tr>
+      <tr><td>Your iCloud account (private)</td><td>Your projects, items, photos, comments, and activity, synced across your devices</td><td>You. Apple stores this data under its own privacy policy; we cannot access it.</td></tr>
+      <tr><td>iCloud (shared projects)</td><td>Projects you share, including photos, comments, and reports</td><td>You and the people you invite</td></tr>
+      <tr><td>Our servers (hosted by Supabase)</td><td>AI request records, temporary copies of photos sent for analysis, PDF reports, and subscription and token records</td><td>Steeltree and our service providers, as described in Section 4</td></tr>
+      <tr><td>OpenAI</td><td>Photos and text you submit for AI analysis</td><td>OpenAI, as described in Section 5</td></tr>
+      <tr><td>Autodesk (only if you use the integration)</td><td>Punch list items and photos you send to Autodesk Build</td><td>You and others with access to your Autodesk project, under Autodesk's terms</td></tr>
+    </table>
     </div>
 
-    <div class="priv-section">
-      <h2>4. AI-Powered Analysis</h2>
-      <p>
-        VIF uses artificial intelligence to analyze your job-site photos and suggest punchlist items. When you trigger AI analysis, the photo is transmitted over an encrypted connection to a third-party AI processing service. The response — a list of suggested punch items — is returned to your device.
-      </p>
-      <p>
-        We do not retain copies of your photos on our servers. The AI service processes your photo solely for the purpose of generating punch item suggestions and does not use it for training AI models or any other purpose, consistent with applicable data processing agreements.
-      </p>
-    </div>
+    <h2>4. How We Share Information</h2>
+    <p>We share information only as follows:</p>
+    <ul>
+      <li><strong>Service providers</strong> that process information on our behalf and under our instructions: Supabase (database, file storage, and server functions), OpenAI (AI analysis), and TelemetryDeck (app analytics). Apple provides iCloud, purchase processing, weather data, and speech recognition under its own privacy policy.</li>
+      <li><strong>People you share with.</strong> When you share a project, the people you invite can see its contents, including photos, comments, and reports.</li>
+      <li><strong>Autodesk, at your direction.</strong> If you connect Autodesk Build and send items, that content is transferred to Autodesk and handled under the <a href="https://www.autodesk.com/company/legal-notices-trademarks/privacy-statement">Autodesk Privacy Statement</a>.</li>
+      <li><strong>Legal and safety reasons.</strong> We may disclose information if we believe in good faith it is required by law or legal process, or necessary to protect the rights, safety, or property of our users, the public, or Steeltree.</li>
+      <li><strong>Business transfers.</strong> If Steeltree is involved in a merger, acquisition, or sale of assets, information may be transferred as part of that transaction, subject to this Privacy Policy.</li>
+    </ul>
+    <p>We do not sell personal information, and we do not "share" it for cross-context behavioral advertising as those terms are defined under California law.</p>
 
-    <div class="priv-section">
-      <h2>5. PDF Reports &amp; Data Sharing</h2>
-      <p>
-        Reports generated by VIF are created and stored on your device. You choose when and how to share them — via AirDrop, email, messaging, or any other method available through iOS's standard share sheet.
-      </p>
-      <p>
-        When you share a report, the contents of that report (photos, punch items, project details, your company logo) are transmitted via the method you select. We have no involvement in or visibility into reports you choose to share.
-      </p>
-    </div>
+    <h2>5. AI Processing</h2>
+    <p>AI analyses are performed by OpenAI through its API. When you request an analysis, the photo or text and the related instructions are sent to OpenAI, which returns the results to our servers and then to the App. Under OpenAI's API data policies, OpenAI does not use this data to train its models, but may retain it for up to 30 days to monitor for abuse, after which it is deleted unless the law requires otherwise. We do not use Your Content to train AI models either.</p>
+    <p>AI results are generated automatically and may be inaccurate. See Section 7 of our <a href="terms.html">Terms of Service</a>.</p>
 
-    <div class="priv-section">
-      <h2>6. Autodesk Build Integration</h2>
-      <p>
-        If you choose to use the Autodesk Build integration, you will be asked to authenticate with your Autodesk account. VIF uses Autodesk's official API and OAuth authentication flow. Your Autodesk credentials are never visible to or stored by VIF — authentication is handled entirely by Autodesk.
-      </p>
-      <p>
-        Punchlist items and related data that you choose to push to Autodesk Build are transmitted directly to Autodesk's servers and are subject to <a href="https://www.autodesk.com/company/legal-notices-trademarks/privacy-statement" target="_blank" rel="noopener">Autodesk's Privacy Policy</a>.
-      </p>
-    </div>
+    <h2>6. How Long We Keep Information</h2>
+    <ul>
+      <li><strong>Photos sent for AI analysis</strong> are deleted from our servers after the request is processed, whether it succeeds or fails.</li>
+      <li><strong>AI request records</strong> are kept as long as needed to operate billing, prevent duplicate charges, and troubleshoot, and are then deleted.</li>
+      <li><strong>PDF reports</strong> are kept while they are available for you and your collaborators to download, and are deleted when you delete them or when you ask us to delete them.</li>
+      <li><strong>Subscription and token records</strong> are kept while you have an active subscription or token balance, and afterwards as needed for accounting, tax, and legal purposes.</li>
+      <li><strong>Analytics data</strong> is kept as long as needed to understand how the App is used and to fix problems, and is then deleted.</li>
+      <li><strong>Data on your device and in iCloud</strong> stays under your control until you delete it.</li>
+    </ul>
+    <h2>7. Security</h2>
+    <p>We use reasonable technical and organizational measures to protect information, including encryption in transit, access controls on our servers, restricted access to stored files, and storing Autodesk credentials in the device Keychain. Data in iCloud is protected by Apple's security measures. No system is completely secure, however, and we cannot guarantee the security of information. You are responsible for securing your device and Apple ID.</p>
+    <h2>8. Your Choices and Rights</h2>
 
-    <div class="priv-section">
-      <h2>7. Data Retention &amp; Deletion</h2>
-      <p>
-        All data created within VIF — including your photos, projects, and reports — is stored exclusively on your device. You can delete this data at any time by deleting individual items within the app or by deleting the app from your device entirely.
-      </p>
-      <p>
-        Deleting the app from your device will remove all locally stored app data. We do not maintain copies of your data on external servers, so there is no additional deletion request required.
-      </p>
-    </div>
+    <h3>8.1 Choices in the App and on Your Device</h3>
+    <ul>
+      <li>You can turn off camera, location, microphone, and speech permissions in your device's Settings. Some features will not work without them.</li>
+      <li>You can delete projects, items, photos, and reports in the App. Deleting them in the App removes them from your iCloud account.</li>
+      <li>You can stop sharing a project or remove participants at any time.</li>
+      <li>You can disconnect Autodesk Build in the App's settings. Content already sent to Autodesk remains in your Autodesk project.</li>
+    </ul>
 
-    <div class="priv-section">
-      <h2>8. Children's Privacy</h2>
-      <p>
-        VIF is not intended for use by children under the age of 13, and we do not knowingly collect any personal information from children. If you believe a child under 13 has used the app in a way that provided personal data, please contact us and we will take appropriate steps.
-      </p>
-    </div>
+    <h3>8.2 Requests to Access or Delete Data on Our Servers</h3>
+    <p>To ask for a copy of the data we hold on our servers, or for its deletion, contact us at the address in Section 13. Because VIF has no accounts, we will need information to locate your data, such as your App Store transaction ID, which you can find <span class="ph">[in the App's Settings screen]</span>. We will respond within the time required by applicable law. Deleting the App does not delete data on our servers or in your iCloud account.</p>
+    <h3>8.3 Rights Under State Privacy Laws (including California)</h3>
+    <p>Depending on where you live, you may have the right to know what personal information we collect, use, and disclose; to access, correct, or delete it; to obtain a portable copy; and to opt out of the sale or sharing of personal information or of certain profiling. We do not sell or share personal information for cross-context behavioral advertising, and we do not use it for profiling that produces legal or similarly significant effects. We will not discriminate against you for exercising your rights. You may use an authorized agent to make a request, and we may need to verify the request.</p>
 
-    <div class="priv-section">
-      <h2>9. Changes to This Policy</h2>
-      <p>
-        We may update this Privacy Policy from time to time. When we do, we will update the "Last updated" date at the top of this page. If changes are significant, we may also notify users through the App Store update notes.
-      </p>
-      <p>
-        Your continued use of the app after any changes constitutes your acceptance of the revised policy.
-      </p>
-    </div>
+    <h3>8.4 Rights in the EEA, UK, and Switzerland</h3>
+    <p>If you are in the European Economic Area, the United Kingdom, or Switzerland, Steeltree is the controller of the personal information described in this policy. You have the right to access, correct, delete, restrict, or object to our processing of your personal information, to data portability, and to withdraw consent at any time. You also have the right to lodge a complaint with your local data protection authority.</p>
+    <p>We rely on the following legal bases: performance of our contract with you (to provide the App and process subscriptions); our legitimate interests (to secure, troubleshoot, and improve the App, provided those interests are not overridden by your rights); your consent (for device permissions such as location and microphone); and compliance with legal obligations.</p>
+    <p>Your information is processed in the United States and other countries where our service providers operate, which may not have the same data protection laws as your country. Where required, we rely on appropriate safeguards such as the European Commission's Standard Contractual Clauses.</p>
 
-    <div class="priv-section">
-      <h2>10. Contact Us</h2>
-      <p>
-        If you have any questions or concerns about this Privacy Policy or our privacy practices, please don't hesitate to reach out. You can contact us via the <a href="contact.html">Contact page</a> on this website.
-      </p>
-    </div>
+    <h2>9. Information About Other People</h2>
+    <p>VIF is used to document job sites, so photos and projects may include information about other people, such as workers who appear in photos or team members named in a project. When you add this information, you are responsible for having a lawful basis to do so and for giving any notice or obtaining any consent required by law. We process this information only to provide the App to you.</p>
+    <p>We do not use facial recognition and do not collect biometric identifiers or biometric information from photos. If you believe your information has been included in someone's VIF project without permission, please contact the person who created the project. You may also contact us, and we will help where we can.</p>
+
+    <h2>10. Children</h2>
+    <p>The App is a professional tool intended for people 18 and older. We do not knowingly collect personal information from children under 18. If you believe a child has provided us with personal information, contact us and we will delete it.</p>
+
+    <h2>11. Third-Party Services</h2>
+    <p>The App works with services operated by others, including Apple and Autodesk. Their handling of your information is governed by their own privacy policies, including <a href="https://www.apple.com/legal/privacy/">Apple's Privacy Policy</a> and the <a href="https://www.autodesk.com/company/legal-notices-trademarks/privacy-statement">Autodesk Privacy Statement</a>. We are not responsible for their practices.</p>
+
+    <h2>12. Changes to This Privacy Policy</h2>
+    <p>We may update this Privacy Policy from time to time. If we make material changes, we will notify you in the App before they take effect and update the effective date above.</p>
+
+    <h2>13. Contact Us</h2>
+    <p>For privacy questions or requests, contact:</p>
+    <p>
+      Steeltree Labs LLC<br>
+      Email: <a href="mailto:hello@steeltreelabs.com">hello@steeltreelabs.com</a>
+    </p>
 
   </div>
 
   <footer>
     <a href="index.html" class="footer-logo"><img src="logo.png" class="logo-img" alt="">VIF</a>
     <div class="footer-links">
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="about.html" class="site-link">About</a>
+      <a href="contact.html" class="site-link">Contact</a>
       <a href="privacy.html">Privacy Policy</a>
-      <a href="#">App Store</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="#" class="site-link">App Store</a>
     </div>
     <span class="footer-copy">© 2026 VIF. All rights reserved.</span>
   </footer>
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navEl = document.querySelector('nav');
+    if (hamburger) {
+      hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navEl.classList.toggle('nav-open');
+      });
+      document.addEventListener('click', (e) => {
+        if (!navEl.contains(e.target)) navEl.classList.remove('nav-open');
+      });
+    }
+  </script>
 
 </body>
 </html>
